@@ -1,66 +1,122 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+Класс ProfileController
+Обзор
+Класс ProfileController расширяет базовый класс Controller и отвечает за обработку действий, связанных с профилем пользователя. Этот контроллер включает промежуточное ПО (middleware), чтобы гарантировать, что только аутентифицированные пользователи могут получить доступ к его методам. Основные функции, предоставляемые этим контроллером, включают отображение профиля пользователя и обновление информации профиля пользователя.
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Конструктор
+__construct()
+Метод-конструктор инициализирует контроллер и применяет промежуточное ПО auth, чтобы гарантировать, что все действия в этом контроллере требуют аутентификации пользователя.
 
-## About Laravel
+Методы
+showProfile(Request $request)
+Этот метод отвечает за отображение профиля пользователя. Он получает ID текущего аутентифицированного пользователя, извлекает связанную информацию о пользователе из модели UserInfo и возвращает представление профиля. Если информация о пользователе не найдена, он создает новую запись UserInfo с значениями по умолчанию и предоставленными данными запроса, а затем возвращает представление профиля.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Параметры
+Request $request: Объект запроса, содержащий потенциальные входные данные для создания нового профиля пользователя.
+Возвращает
+Illuminate\View\View: Представление профиля с информацией о пользователе.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+"updateProfile(Request $request)"
+Этот метод обновляет информацию профиля пользователя. Сначала он обновляет или создает ежедневную запись о весе пользователя в таблице weightstat. Затем он обновляет или создает информацию профиля пользователя в таблице UserInfo с данными из запроса. После обновления профиля он перенаправляет пользователя на страницу профиля с сообщением об успешном обновлении.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Параметры
+Request $request: Объект запроса, содержащий входные данные для обновления профиля пользователя.
+Возвращает
+Illuminate\Http\RedirectResponse: Ответ с перенаправлением на страницу профиля пользователя с сообщением об успешном обновлении.
 
-## Learning Laravel
+Модели
+UserInfo
+Представляет информацию о профиле пользователя, включая такие поля, как вес, рост, пол, возраст и уровень активности.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+weightstat
+Представляет ежедневную статистику веса пользователя, позволяя отслеживать изменения веса с течением времени.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Зависимости
+Illuminate\Http\Request: Обрабатывает HTTP-запросы.
+Auth: Предоставляет поддержку аутентификации.
+UserInfo: Модель Eloquent для информации о профиле пользователя.
+weightstat: Модель Eloquent для статистики веса пользователя.
+Carbon: Обрабатывает операции с датой и временем.
+Промежуточное ПО
+auth: Гарантирует, что только аутентифицированные пользователи могут получить доступ к методам этого контроллера.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
-## Laravel Sponsors
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Класс FoodListController расширяет базовый класс Controller и отвечает за обработку действий, связанных со списком продуктов питания. Этот контроллер включает промежуточное ПО (middleware), чтобы гарантировать, что только аутентифицированные пользователи могут получить доступ к его методам. Основные функции, предоставляемые этим контроллером, включают отображение списка продуктов, поиск по списку продуктов и добавление продуктов в таблицу потребленных продуктов.
 
-### Premium Partners
+__construct()
+Метод-конструктор инициализирует контроллер и применяет промежуточное ПО auth, чтобы гарантировать, что все действия в этом контроллере требуют аутентификации пользователя.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+Методы
+index()
+Этот метод отвечает за отображение списка продуктов. Он получает первые 10 записей из таблицы FoodList и возвращает представление с этим списком продуктов.
 
-## Contributing
+Возвращает
+Illuminate\View\View: Представление с отображением списка продуктов.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+search(Request $request)
+Этот метод отвечает за поиск продуктов в списке. Он получает поисковый запрос из объекта Request и выполняет поиск по таблице FoodList по имени продукта. Если запрос не задан, возвращаются первые 10 записей из таблицы.
 
-## Code of Conduct
+Параметры
+Request $request: Объект запроса, содержащий поисковый запрос.
+Возвращает
+Illuminate\View\View: Представление с результатами поиска или списком продуктов.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+addFood(Request $request, $food)
+Этот метод отвечает за добавление выбранного продукта в таблицу потребленных продуктов (Eated). Он получает информацию о продукте и количестве граммов из объекта Request, рассчитывает пищевые данные (белки, жиры, углеводы, калории) и сохраняет их в таблице Eated.
 
-## Security Vulnerabilities
+Параметры
+Request $request: Объект запроса, содержащий данные о количестве граммов продукта.
+$food: Объект продукта или его ID, который нужно добавить.
+Возвращает
+Illuminate\Http\RedirectResponse: Ответ с перенаправлением обратно на предыдущую страницу с сообщением об успешном добавлении продукта.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Модели
+FoodList
+Представляет список продуктов питания, включая такие поля, как имя продукта, белки, жиры, углеводы и калории.
 
-## License
+Eated
+Представляет таблицу потребленных продуктов, где хранятся данные о потребленных пользователем продуктах, включая их пищевые данные.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Зависимости
+Illuminate\Support\Facades\Auth: Предоставляет поддержку аутентификации.
+Illuminate\Http\Request: Обрабатывает HTTP-запросы.
+App\Models\FoodList: Модель Eloquent для списка продуктов питания.
+App\Models\Eated: Модель Eloquent для таблицы потребленных продуктов.
+Промежуточное ПО
+auth: Гарантирует, что только аутентифицированные пользователи могут получить доступ к методам этого контроллера.
+
+
+
+Класс HomeController расширяет базовый класс Controller и отвечает за отображение информации о прогрессе пользователя в потреблении калорий, белков, жиров и углеводов. Этот контроллер включает промежуточное ПО (middleware), чтобы гарантировать, что только аутентифицированные пользователи могут получить доступ к его методам.
+
+__construct()
+Метод-конструктор инициализирует контроллер и применяет промежуточное ПО auth, чтобы гарантировать, что все действия в этом контроллере требуют аутентификации пользователя.
+
+Методы
+showProgress()
+Этот метод отвечает за отображение прогресса пользователя в потреблении калорий, белков, жиров и углеводов. Он рассчитывает максимальное количество калорий и макронутриентов, которые пользователь может потребить в зависимости от его активности, пола, веса, роста и возраста. Также он подсчитывает фактическое количество потребленных калорий и макронутриентов за текущий день.
+
+Возвращает
+Illuminate\View\View: Представление с данными о прогрессе пользователя.
+
+index()
+Этот метод отображает главную страницу приложения.
+
+Возвращает
+Illuminate\Contracts\Support\Renderable: Представление главной страницы.
+
+Модели
+UserInfo
+Представляет информацию о профиле пользователя, включая такие поля, как вес, рост, пол, возраст и уровень активности.
+
+Eated
+Представляет таблицу потребленных продуктов, где хранятся данные о потребленных пользователем продуктах, включая их пищевые данные (калории, белки, жиры, углеводы).
+
+Зависимости
+Illuminate\Support\Facades\Auth: Предоставляет поддержку аутентификации.
+Illuminate\Http\Request: Обрабатывает HTTP-запросы.
+App\Models\UserInfo: Модель Eloquent для информации о профиле пользователя.
+App\Models\Eated: Модель Eloquent для таблицы потребленных продуктов.
+Carbon\Carbon: Обрабатывает операции с датой и временем.
+Промежуточное ПО
+auth: Гарантирует, что только аутентифицированные пользователи могут получить доступ к методам этого контроллера.
